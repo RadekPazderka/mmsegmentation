@@ -10,6 +10,9 @@ from .builder import DATASETS
 from .custom import CustomDataset
 
 
+
+
+
 @DATASETS.register_module()
 class CityscapesDataset(CustomDataset):
     """Cityscapes dataset.
@@ -212,3 +215,27 @@ class CityscapesDataset(CustomDataset):
             CSEval.evaluateImgLists(pred_list, seg_map_list, CSEval.args))
 
         return eval_results
+
+
+@DATASETS.register_module()
+class CityscapeSerpentine(CityscapesDataset):
+  CLASSES = ['background', 'serpentine']
+  PALETTE = [[128, 64, 128], [244, 35, 232]] #[0,0,0],[1,1,1],[2,2,2]]
+  def __init__(self,
+               img_suffix='.png',
+               seg_map_suffix='_labelTrainIds.png',
+               **kwargs):
+      super(CityscapesDataset, self).__init__(
+          img_suffix=img_suffix, seg_map_suffix=seg_map_suffix, **kwargs)
+
+
+@DATASETS.register_module()
+class CityscapeGridHole(CityscapesDataset):
+  CLASSES = ['background', 'grid_hole']
+  PALETTE = [[70, 70, 70], [102, 102, 156]] #[0,0,0],[1,1,1],[2,2,2]]
+  def __init__(self,
+               img_suffix='.png',
+               seg_map_suffix='_labelTrainIds.png',
+               **kwargs):
+      super(CityscapesDataset, self).__init__(
+          img_suffix=img_suffix, seg_map_suffix=seg_map_suffix, **kwargs)
